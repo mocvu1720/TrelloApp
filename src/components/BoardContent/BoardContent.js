@@ -103,6 +103,29 @@ function BoardContent() {
     toggleOpenNewColumnForm()
   }
 
+  const onUpdateColumn = (newColumnToUpdate) => {
+    const columnIdToUpdate = newColumnToUpdate.id
+
+    let newColumns = [...columns]
+    const columnIndexToUpdate = newColumns.findIndex((column) => column.id === columnIdToUpdate)
+    if (newColumnToUpdate._destroy) {
+      // remove column
+      newColumns.splice(columnIndexToUpdate, 1)
+    } else {
+      // update column
+      newColumns.splice(columnIndexToUpdate, 1, newColumnToUpdate)
+    }
+
+    let newBoard = { ...board }
+
+    newBoard.corlumnOrder = newColumns.map((column) => column.id)
+    newBoard.columns = newColumns
+
+    setColumns(newColumns)
+    setBoard(newBoard)
+
+  }
+
   return (
     <div className="board-content">
       <Container
@@ -118,7 +141,7 @@ function BoardContent() {
       >
         {columns.map((column, index) => (
           <Draggable key={index}>
-            <Column column={column} onCardDrop={onCardDrop} />
+            <Column column={column} onCardDrop={onCardDrop} onUpdateColumn={onUpdateColumn}/>
           </Draggable>
         ))}
       </Container>
@@ -135,7 +158,7 @@ function BoardContent() {
           <Row>
             <Col className="enter-new-column">
               <Form.Control
-                size="sm" type="text" 
+                size="sm" type="text"
                 placeholder="Enter column title" className="input-enter-new-column"
                 ref={newColumnInputRef}
                 value={newColumnTitle}

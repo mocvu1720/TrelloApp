@@ -23,6 +23,8 @@ body {
     padding: 0;
   }
 
+  // eslint-disable-next-line
+
   textarea:focus,
   textarea.form-control:focus,
   input.form-control:focus,
@@ -37,9 +39,22 @@ body {
   [contenteditable].form-control:focus {
     box-shadow: none;
   }
-  
-  .btn:focus, .btn.active {
-    outline: none;
-    box-shadow: none;
+
+  .btn:focus,
+  .btn.active {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .trello-content-editable {
+    background-color: inherit;
+    border: none;
+    font-size: inherit;
+    font-weight: inherit;
+    cursor: pointer;
+    &:focus {
+      background-color: white;
+      border: 1px solid $input-border-color;
+    }
   }
 }
